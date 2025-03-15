@@ -26,11 +26,15 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from api.views import BookViewSet
+from api.views import home
 
 router = DefaultRouter()
 router.register(r'books', BookViewSet, basename='book')  # 👈 DODAJ `basename`
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home, name='home'),  # 🔹 Dodaje stronę główną
     path('api/', include(router.urls)),
+    path('api/books/<int:id>/', BookViewSet.as_view({'get': 'retrieve'}), name='book-detail'),  # 📌 Dynamiczny parametr ID
+
 ]
