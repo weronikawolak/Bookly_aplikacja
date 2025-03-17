@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
 ]
 
@@ -78,9 +79,13 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'bookly_db',  # Nazwa bazy danych
+        'USER': 'postgres',  # Użytkownik PostgreSQL
+        'PASSWORD': 'mypassword',  # Hasło PostgreSQL
+        'HOST': 'localhost',
+        'PORT': '5432',
+}
 }
 
 
@@ -133,6 +138,7 @@ CORS_ALLOW_CREDENTIALS = True
 # Ustawienia Django REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
