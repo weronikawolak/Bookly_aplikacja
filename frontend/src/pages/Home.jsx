@@ -4,7 +4,8 @@ import axios from "axios";
 
 const Home = () => {
     const navigate = useNavigate();
-    const { userId } = useParams(); // ✅ Pobieramy ID użytkownika z URL
+    const { userId } = useParams(); // Pobieramy ID użytkownika z URL
+    const [userData, setUserData] = useState(null);
     const [books, setBooks] = useState([]);
     const token = localStorage.getItem("token");
 
@@ -14,36 +15,57 @@ const Home = () => {
             return;
         }
 
-        const fetchBooks = async () => {
+        const fetchUserData = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/user-books/", {
-                    headers: { Authorization: `Bearer ${token}` },
+                console.log("📡 Pobieranie danych użytkownika...");
+                const response = await axios.get("http://127.0.0.1:8000/api/user/", {
+                    headers: { Authorization: `Token ${token}` },
                 });
-                setBooks(response.data);
+                console.log("✅ Odpowiedź API (user):", response.data);
+                setUserData(response.data);
             } catch (error) {
-                console.error("Błąd pobierania książek:", error);
+                console.error("❌ Błąd pobierania danych użytkownika:", error.response ? error.response.data : error);
+                navigate("/");
             }
         };
 
+        const fetchBooks = async () => {
+            try {
+                console.log("📡 Pobieranie książek...");
+                const response = await axios.get("http://127.0.0.1:8000/api/user/books/", {
+                    headers: { Authorization: `Token ${token}` },
+                });
+                console.log("✅ Odpowiedź API (books):", response.data);
+                setBooks(response.data);
+            } catch (error) {
+                console.error("❌ Błąd pobierania książek:", error.response ? error.response.data : error);
+            }
+        };
+
+        fetchUserData();
         fetchBooks();
     }, [navigate, token]);
 
-    if (!token) return <p>Loading...</p>;
+    if (!token) return <p>Ładowanie...</p>;
 
     return (
         <div>
-            <h1>Welcome, User {userId}!</h1>
-            <h2>Your Books:</h2>
+            <h1>Witaj, {userData?.username}!</h1>
+            <h2>Twoje książki:</h2>
             <ul>
-                {books.map((book) => (
-                    <li key={book.id}>{book.title} by {book.author}</li>
-                ))}
+                {books.length > 0 ? (
+                    books.map((book) => (
+                        <li key={book.id}>{book.title} by {book.author}</li>
+                    ))
+                ) : (
+                    <p>Brak książek w bibliotece.</p>
+                )}
             </ul>
             <button onClick={() => {
                 localStorage.removeItem("token");
                 navigate("/");
             }}>
-                Logout
+                Wyloguj się
             </button>
         </div>
     );
