@@ -1,0 +1,96 @@
+.custom-page {
+    background-color: #fef6f6;
+    min-height: 100vh;
+    padding: 60px 32px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .custom-page-title {
+    font-size: 44px;
+    font-weight: 700;
+    text-align: center;
+    color: #333;
+    margin-bottom: 48px;
+  }
+  
+  .custom-list-container {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  
+  .custom-list {
+    background-color: #eeeeee;
+    border-radius: 20px;
+    padding: 24px;
+    width: 260px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.2s ease-in-out;
+  }
+  
+  .custom-list-title {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 16px;
+    padding-left: 8px;
+    color: #222;
+  }
+  
+  .custom-list-box {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 16px;
+  }
+  
+  .custom-list-books {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .custom-list-book {
+    font-size: 15px;
+    font-weight: 500;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .custom-list-book:last-child {
+    border-bottom: none;
+  }
+  
+  .custom-list-book:hover {
+    color: #5f4b8b;
+  }
+  
+  .custom-empty {
+    text-align: center;
+    font-size: 14px;
+    color: #999;
+  }
+  
+  .custom-add-container {
+    text-align: center;
+    margin-top: 40px;
+  }
+  
+  .custom-add-btn {
+    background: none;
+    border: none;
+    color: #5f4b8b;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .custom-add-btn:hover {
+    color: #3f3061;
+    text-decoration: none;
+  }
+  

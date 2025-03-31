@@ -24,8 +24,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import AddBook from "./pages/AddBook"; // lub poprawna ścieżka
 import BookDetail from "./pages/BookDetail";
-
-
+import BookList from "./pages/BookList";
 function App() {
   return (
     <Router>
@@ -36,6 +35,8 @@ function App() {
         <Route path="/home/:userId" element={<Home />} />
         <Route path="*" element={<Login />} /> {/* Fallback */}
         <Route path="/add-book/:userId" element={<AddBook />} />
+        {/* <Route path="/books/:id" element={<BookDetail />} /> */}
+        <Route path="/books" element={<BookList />} />
         <Route path="/books/:id" element={<BookDetail />} />
 
       </Routes>
