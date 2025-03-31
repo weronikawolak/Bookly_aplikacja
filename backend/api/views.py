@@ -75,7 +75,7 @@ class LoginUserView(APIView):
 
             return Response({"token": token.key, "user_id": user.id}, status=status.HTTP_200_OK)
 
-        print(" Błąd logowania!")  
+        print("❌ Błąd logowania!")  
         return Response({"error": "Invalid username or password"}, status=status.HTTP_401_UNAUTHORIZED)
 
 class LogoutUserView(APIView):
@@ -104,6 +104,6 @@ class UserBooksView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        books = Book.objects.filter(user=request.user) 
+        books = Book.objects.filter(user=request.user)  # ✅ poprawione
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data)
