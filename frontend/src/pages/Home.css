@@ -82,4 +82,25 @@
     margin-right: auto;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   }
+  .custom-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .custom-back-btn {
+    background: none;
+    border: none;
+    color: #5f4b8b;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 15px;
+    transition: color 0.2s ease;
+  }
+  
+  .custom-back-btn:hover {
+    color: #3f3061;
+    text-decoration: underline;
+  }
   

@@ -379,6 +379,111 @@
 // };
 
 // export default BookList;
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+// import { useNavigate } from "react-router-dom";
+// import AddBook from "./AddBook";
+// import "./BookList.css";
+
+// const BookList = () => {
+//   const [books, setBooks] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [showForm, setShowForm] = useState({
+//     wishlist: false,
+//     reading: false,
+//     completed: false,
+//   });
+
+//   const token = localStorage.getItem("token");
+//   const navigate = useNavigate();
+
+//   const fetchBooks = async () => {
+//     try {
+//       setLoading(true);
+//       const response = await axios.get("http://127.0.0.1:8000/api/user/books/", {
+//         headers: { Authorization: `Token ${token}` },
+//       });
+//       setBooks(response.data);
+//     } catch (error) {
+//       console.error("Błąd przy pobieraniu książek:", error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchBooks();
+//   }, []);
+
+//   const groupedBooks = {
+//     wishlist: books.filter((b) => b.status === "wishlist"),
+//     reading: books.filter((b) => b.status === "reading"),
+//     completed: books.filter((b) => b.status === "completed"),
+//   };
+
+//   const toggleForm = (status) => {
+//     setShowForm((prev) => ({
+//       ...prev,
+//       [status]: !prev[status],
+//     }));
+//   };
+
+//   const renderList = (label, status, booksArray) => (
+//     <div className="custom-list">
+//       <h3 className="custom-list-title">{label}</h3>
+//       <div className="custom-list-box">
+//         {booksArray.length > 0 ? (
+//           <ul className="custom-list-books">
+//             {booksArray.map((book) => (
+//               <li
+//                 key={book.id}
+//                 onClick={() => navigate(`/books/${book.id}`)}
+//                 className="custom-list-book"
+//               >
+//                 {book.title}
+//               </li>
+//             ))}
+//           </ul>
+//         ) : (
+//           <p className="custom-empty">Brak książek.</p>
+//         )}
+//       </div>
+
+//       <button className="custom-add-btn" onClick={() => toggleForm(status)}>
+//         ➕ Add book
+//       </button>
+
+//       {showForm[status] && (
+//         <AddBook
+//           initialStatus={status}
+//           onBookAdded={() => {
+//             fetchBooks();
+//             toggleForm(status); // zamyka formularz po dodaniu
+//           }}
+//         />
+//       )}
+//     </div>
+//   );
+
+//   return (
+//     <div className="custom-page">
+//       <h1 className="custom-page-title">My lists</h1>
+
+//       {loading ? (
+//         <p className="custom-loading">⏳ Ładowanie...</p>
+//       ) : (
+//         <div className="custom-list-container">
+//           {renderList("To read", "wishlist", groupedBooks.wishlist)}
+//           {renderList("Reading", "reading", groupedBooks.reading)}
+//           {renderList("Read", "completed", groupedBooks.completed)}
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default BookList;
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -467,7 +572,12 @@ const BookList = () => {
 
   return (
     <div className="custom-page">
-      <h1 className="custom-page-title">My lists</h1>
+      <div className="custom-header-row">
+        <h1 className="custom-page-title">My lists</h1>
+        <button className="custom-back-btn" onClick={() => navigate(-1)}>
+          ← Wróć
+        </button>
+      </div>
 
       {loading ? (
         <p className="custom-loading">⏳ Ładowanie...</p>
