@@ -20,10 +20,10 @@ class BookViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Book.objects.filter(user=self.request.user)  # ✅ poprawione
+        return Book.objects.filter(user=self.request.user) 
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)  # ✅ poprawione
+        serializer.save(user=self.request.user)  
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
     authentication_classes = [TokenAuthentication]
@@ -57,7 +57,7 @@ class RegisterUserView(APIView):
 
         return Response({"token": token.key, "user_id": user.id}, status=status.HTTP_201_CREATED)
 
-# ✅ Poprawione logowanie użytkownika (zwraca token)
+
 class LoginUserView(APIView):
     permission_classes = [AllowAny]
 
@@ -71,11 +71,11 @@ class LoginUserView(APIView):
 
         if user:
             token, created = Token.objects.get_or_create(user=user)
-            print(f"✅ Zalogowano: {user.username}, Token: {token.key}")
+            print(f" Zalogowano: {user.username}, Token: {token.key}")
 
             return Response({"token": token.key, "user_id": user.id}, status=status.HTTP_200_OK)
 
-        print("❌ Błąd logowania!")  
+        print(" Błąd logowania!")  
         return Response({"error": "Invalid username or password"}, status=status.HTTP_401_UNAUTHORIZED)
 
 class LogoutUserView(APIView):
@@ -91,7 +91,7 @@ class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        user = request.user  # Pobieramy zalogowanego użytkownika
+        user = request.user  
         return Response({
             "id": user.id,
             "username": user.username,
@@ -104,6 +104,6 @@ class UserBooksView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        books = Book.objects.filter(user=request.user)  # ✅ poprawione
+        books = Book.objects.filter(user=request.user) 
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data)

@@ -8,7 +8,6 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ['id', 'name']
 
-# ✅ Serializer książek
 class BookSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
     category_id = serializers.PrimaryKeyRelatedField(
@@ -28,7 +27,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'book', 'rating', 'comment', 'created_at']
 
 
-# ✅ Serializer użytkownika
+
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 

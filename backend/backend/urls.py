@@ -26,6 +26,6 @@ urlpatterns = [
     path('api/login/', LoginUserView.as_view(), name="login"),
     path('api/logout/', LogoutUserView.as_view(), name="logout"),
     path('api/user/', UserDetailView.as_view(), name='user-detail'),
-    path('api/user/books/', UserBooksView.as_view(), name='user-books'),  # ✅ dodaj to
+    path('api/user/books/', UserBooksView.as_view(), name='user-books'),
 
 ]
