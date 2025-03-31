@@ -8,8 +8,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
-from .models import Book
-from .serializers import BookSerializer, UserSerializer
+from .models import Book, Review, Category
+from .serializers import BookSerializer, ReviewSerializer, CategorySerializer
 
 def home(request):
     return JsonResponse({"message": "Welcome to the Bookly API!"})
@@ -20,10 +20,26 @@ class BookViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Book.objects.filter(owner=self.request.user)  
+        return Book.objects.filter(user=self.request.user)  # ✅ poprawione
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        serializer.save(user=self.request.user)  # ✅ poprawione
+class ReviewViewSet(viewsets.ModelViewSet):
+    serializer_class = ReviewSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Review.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [AllowAny]
+
 
 class RegisterUserView(APIView):
     permission_classes = [AllowAny]
@@ -69,3 +85,25 @@ class LogoutUserView(APIView):
     def post(self, request):
         request.auth.delete()
         return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
+
+class UserDetailView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user  # Pobieramy zalogowanego użytkownika
+        return Response({
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "date_joined": user.date_joined.strftime('%Y-%m-%d %H:%M:%S')
+        })
+
+class UserBooksView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        books = Book.objects.filter(user=request.user)  # ✅ poprawione
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data)

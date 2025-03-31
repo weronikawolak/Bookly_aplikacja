@@ -10,7 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -89,7 +94,16 @@ DATABASES = {
 }
 }
 
-
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.getenv("POSTGRES_DB", "bookly_db"),
+#         "USER": os.getenv("POSTGRES_USER", "bookly_user"),
+#         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "bookly_password"),
+#         # "HOST": "db",
+#         "PORT": "5432",
+#     }
+# }
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -131,9 +145,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CORS - Pozwala Reactowi komunikować się z API Django
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Adres frontend React
-]
+
 
 # Ustawienia Django REST Framework
 REST_FRAMEWORK = {
@@ -147,15 +159,21 @@ REST_FRAMEWORK = {
     ),
 }
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # ⚡ Dodaj port Vite (React)
-    "http://127.0.0.1:5173",  # ⚡ Alternatywnie 127.0.0.1
+    "http://localhost:5173",  # Vite (React)
+    "http://127.0.0.1:5173",  # Alternatywnie 127.0.0.1
     "http://localhost:3000",   # React (domyślnie dla Create React App)
+    "http://127.0.0.1:3000"    # Alternatywnie 127.0.0.1
 
 ]
 
 # ✅ Zezwól na wysyłanie tokenów w nagłówkach
 CORS_ALLOW_CREDENTIALS = True
-CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
 
 # ✅ Zezwól na konkretne metody
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]

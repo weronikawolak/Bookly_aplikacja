@@ -1,12 +1,32 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Book
+from .models import Book, Review, Category
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name']
 
 # ✅ Serializer książek
 class BookSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
+    category_id = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all(), source='category', write_only=True
+    )
+
     class Meta:
         model = Book
         fields = '__all__'
+        read_only_fields = ['user']
+
+class ReviewSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Review
+        fields = ['id', 'user', 'book', 'rating', 'comment', 'created_at']
+
 
 # ✅ Serializer użytkownika
 class UserSerializer(serializers.ModelSerializer):
