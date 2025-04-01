@@ -94,3 +94,26 @@
     text-decoration: none;
   }
   
+  .book-link {
+    cursor: pointer;
+    color: #333;
+    text-decoration: underline;
+  }
+  
+  .book-link:hover {
+    color: #5f4b8b;
+  }
+  
+  .delete-btn {
+    background: none;
+    border: none;
+    color: #cc0000;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 16px;
+  }
+  
+  .delete-btn:hover {
+    color: #ff4d4d;
+  }
+  
