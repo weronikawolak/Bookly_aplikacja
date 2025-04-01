@@ -6,11 +6,6 @@ html, body, #root {
 
 .register-background {
     background: url("src/assets/loginimage.png") no-repeat center center;
-    /* background-size: cover;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center; */
     background-size: cover;
     width: 100vw;
     height: 100vh;
