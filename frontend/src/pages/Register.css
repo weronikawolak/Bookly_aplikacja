@@ -1,6 +1,18 @@
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
 .register-background {
     background: url("src/assets/loginimage.png") no-repeat center center;
+    /* background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center; */
     background-size: cover;
+    width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
