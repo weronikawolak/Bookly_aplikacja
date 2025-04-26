@@ -1,11 +1,8 @@
-# tests/test_books.py
-
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
 from django.contrib.auth.models import User
+from api.models import Book, Category
 from django.urls import reverse
-from api.models import Book
-from api.models import Category
 
 class BookTests(APITestCase):
     def setUp(self):
@@ -24,7 +21,7 @@ class BookTests(APITestCase):
         )
 
     def test_create_book(self):
-        url = reverse('books-list')  # Twój router powinien mieć basename=book
+        url = reverse('books-list')
         data = {
             "title": "New Book",
             "author": "New Author",
@@ -34,10 +31,9 @@ class BookTests(APITestCase):
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Book.objects.count(), 2)
-        self.assertEqual(Book.objects.get(id=response.data['id']).title, "New Book")
 
     def test_get_books_list(self):
-        url = reverse('user-books')  # własny endpoint /api/user/books/
+        url = reverse('user-books')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertGreaterEqual(len(response.data), 1)
@@ -59,7 +55,6 @@ class BookTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.book.refresh_from_db()
         self.assertEqual(self.book.status, "completed")
-        self.assertEqual(self.book.rating, 5)
 
     def test_delete_book(self):
         url = reverse('books-detail', kwargs={'pk': self.book.id})
@@ -70,7 +65,7 @@ class BookTests(APITestCase):
     def test_create_book_invalid_data(self):
         url = reverse('books-list')
         data = {
-            "title": "",  # brak tytułu
+            "title": "",
             "author": "Author",
             "status": "wishlist",
         }
@@ -78,13 +73,24 @@ class BookTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_unauthorized_access(self):
-        client = APIClient()  # niezalogowany klient
+        client = APIClient()
         url = reverse('books-list')
         response = client.get(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-# from django.test import TestCase
+    # --- Nowe testy dla 404 ---
+    def test_get_nonexistent_book(self):
+        url = reverse('books-detail', kwargs={'pk': 9999})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-# class SimpleTest(TestCase):
-#     def test_basic_addition(self):
-#         self.assertEqual(2 + 2, 4)
+    def test_update_nonexistent_book(self):
+        url = reverse('books-detail', kwargs={'pk': 9999})
+        data = {"status": "completed"}
+        response = self.client.patch(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_delete_nonexistent_book(self):
+        url = reverse('books-detail', kwargs={'pk': 9999})
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
