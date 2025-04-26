@@ -3,6 +3,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from api.views import BookViewSet, ReviewViewSet, CategoryViewSet, RegisterUserView, LoginUserView, LogoutUserView, UserDetailView
 from api.views import UserBooksView
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 router = DefaultRouter()
 router.register(r'books', BookViewSet, basename='books')
@@ -21,6 +22,8 @@ router.register(r'categories', CategoryViewSet, basename='categories')
 # ]
 
 urlpatterns = [
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),            # Surowe OpenAPI JSON
+    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),  # Swagger UI!
     path('api/', include(router.urls)),
     path('api/register/', RegisterUserView.as_view(), name="register"),
     path('api/login/', LoginUserView.as_view(), name="login"),
