@@ -104,6 +104,6 @@ class UserBooksView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        books = Book.objects.filter(user=request.user)  # ✅ poprawione
+        books = Book.objects.filter(user=request.user)  
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data)

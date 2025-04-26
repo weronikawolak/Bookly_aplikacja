@@ -9,7 +9,6 @@ class Category(models.Model):
         return self.name
 
 
-
 class Book(models.Model):
     STATUS_CHOICES = [
         ('reading', 'Czytam'),
