@@ -157,6 +157,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',  # API wymaga logowania
     ),
+    'EXCEPTION_HANDLER': 'api.exceptions.custom_exception_handler',  # <<<<<< DODAJ TO
+
 }
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Vite (React)
