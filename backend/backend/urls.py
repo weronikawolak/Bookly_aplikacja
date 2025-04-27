@@ -22,6 +22,7 @@ router.register(r'categories', CategoryViewSet, basename='categories')
 # ]
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),            # Surowe OpenAPI JSON
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),  # Swagger UI!
     path('api/', include(router.urls)),
