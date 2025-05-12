@@ -330,3 +330,9 @@ class UserBooksView(APIView):
         books = BookService.list_user_books(request.user)
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data)
+
+from .tasks import test_task
+
+def test_view(request):
+    test_task.delay()
+    return Response("Zadanie wysłane do kolejki")
