@@ -1,6 +1,17 @@
 from django.db import models
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
+
+class ReadingGoal(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    year = models.IntegerField()
+    goal = models.PositiveIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+    class Meta:
+        unique_together = ['user', 'year']
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -19,10 +30,17 @@ class Book(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    category = models.CharField(max_length=100, null=True, blank=True)  # zamiast ForeignKey
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='wishlist')
     rating = models.IntegerField(null=True, blank=True)
     review = models.TextField(blank=True)
+    pages = models.PositiveIntegerField(null=True, blank=True)
+    cover_url = models.URLField(null=True, blank=True)
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
 
     def __str__(self):
         return self.title
