@@ -1,23 +1,66 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Book, Review, Category
+from .models import Book, Review, ReadingGoal
 
 
-class CategorySerializer(serializers.ModelSerializer):
+# class CategorySerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Category
+#         fields = ['id', 'name']
+
+# class BookSerializer(serializers.ModelSerializer):
+#     category = CategorySerializer(read_only=True)
+#     category_id = serializers.PrimaryKeyRelatedField(
+#         queryset=Category.objects.all(), source='category', write_only=True
+#     )
+
+#     class Meta:
+#         model = Book
+#         fields = '__all__'
+#         read_only_fields = ['user']
+
+
+# class ReadingGoalSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = ReadingGoal
+#         fields = ['id', 'user', 'year', 'goal']
+#         read_only_fields = ['user']
+
+class ReadingGoalSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Category
-        fields = ['id', 'name']
+        model = ReadingGoal
+        fields = ['year', 'goal']
+
+
+class ReadingProgressSerializer(serializers.Serializer):
+    year = serializers.IntegerField()
+    goal = serializers.IntegerField()
+    completed = serializers.IntegerField()
+    progress = serializers.FloatField()
+
+
+# class BookSerializer(serializers.ModelSerializer):
+
+#     class Meta:
+#         model = Book
+#         fields = [
+#             'id', 'user', 'title', 'author', 'category',
+#             'status', 'rating', 'review', 'pages', 'cover_url', 'description'
+#         ]
+#         read_only_fields = ['user']
 
 class BookSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(read_only=True)
-    category_id = serializers.PrimaryKeyRelatedField(
-        queryset=Category.objects.all(), source='category', write_only=True
-    )
 
     class Meta:
         model = Book
-        fields = '__all__'
-        read_only_fields = ['user']
+        fields = [
+            'id', 'user', 'title', 'author', 'category',
+            'status', 'rating', 'review', 'pages',
+            'cover_url', 'description', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['user', 'created_at', 'updated_at']
+
+
 
 class ReviewSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
