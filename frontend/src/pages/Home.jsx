@@ -50,7 +50,10 @@ const Home = () => {
           </p>
         </div>
 
-        <div className="card" onClick={() => navigate("/statistics")}>
+          <div
+            className="card"
+            onClick={() => userData && navigate(`/statistics/${userData.id}`)}
+          >
           <img src={statsIcon} alt="Statistics" className="card-icon" />
           <h2 className="card-title">Statistics</h2>
           <p className="card-desc">
