@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import AddBook from "./pages/AddBook";
 import BookDetail from "./pages/BookDetail";
 import BookList from "./pages/BookList";
+import Statistics from "./pages/Statistics"; // <-- Ścieżka do pliku, dopasuj do siebie
+
 function App() {
   return (
     <Router>
@@ -19,6 +21,7 @@ function App() {
         <Route path="/add-book/:userId" element={<AddBook />} />
         <Route path="/books" element={<BookList />} />
         <Route path="/books/:id" element={<BookDetail />} />
+        <Route path="/statistics/:userId" element={<Statistics />} />
 
       </Routes>
     </Router>
