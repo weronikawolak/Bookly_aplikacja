@@ -2,7 +2,24 @@
 // import axios from "axios";
 // import { useNavigate } from "react-router-dom";
 // import AddBook from "./AddBook";
-// import "./BookList.css";
+
+// import {
+//   Box,
+//   Card,
+//   CardContent,
+//   Typography,
+//   IconButton,
+//   Button,
+//   Grid,
+// } from "@mui/material";
+// import DeleteIcon from "@mui/icons-material/Delete";
+// import AddIcon from "@mui/icons-material/Add";
+// import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+// import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+// import MenuBookIcon from "@mui/icons-material/MenuBook";
+// import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+
+// import bgImage from "../assets/manreading.png"; // 🖼️ Użyj innego pliku jeśli chcesz
 
 // const BookList = () => {
 //   const [books, setBooks] = useState([]);
@@ -39,7 +56,7 @@
 //       await axios.delete(`http://127.0.0.1:8000/api/books/${bookId}/`, {
 //         headers: { Authorization: `Token ${token}` },
 //       });
-//       fetchBooks(); // Refresh list
+//       fetchBooks();
 //     } catch (err) {
 //       console.error("Error deleting book:", err);
 //     }
@@ -62,75 +79,203 @@
 //     }));
 //   };
 
-//   const renderList = (label, status, booksArray) => (
-//     <div className="custom-list" key={status}>
-//       <h3 className="custom-list-title">{label}</h3>
-//       <div className="custom-list-box">
-//         {booksArray.length > 0 ? (
-//           <ul className="custom-list-books">
-//             {booksArray.map((book) => (
-//               <li key={book.id} className="custom-list-book">
-//                 <span
-//                   className="book-link"
-//                   onClick={() => navigate(`/books/${book.id}`)}
-//                 >
-//                   {book.title}
-//                 </span>
-//                 <button
-//                   className="delete-btn"
-//                   title="Delete book"
-//                   onClick={() => handleDelete(book.id)}
-//                 >
-//                   🗑️
-//                 </button>
-//               </li>
-//             ))}
-//           </ul>
-//         ) : (
-//           <p className="custom-empty">No books in this list.</p>
-//         )}
-//       </div>
+//   const renderList = (label, status, booksArray) => {
+//     const icon =
+//       status === "wishlist" ? (
+//         <BookmarkBorderIcon />
+//       ) : status === "reading" ? (
+//         <MenuBookIcon />
+//       ) : (
+//         <CheckCircleOutlineIcon />
+//       );
 
-//       <button className="custom-add-btn" onClick={() => toggleForm(status)}>
-//         ➕ Add book
-//       </button>
+//     return (
+//       <Grid item xs={12} sm={6} md={4} key={status}>
+//         <Card sx={{ borderRadius: 4, boxShadow: 2, height: "100%" }}>
+//           <CardContent
+//             sx={{ display: "flex", flexDirection: "column", height: "100%" }}
+//           >
+//             <Box display="flex" alignItems="center" gap={1.5} mb={2}>
+//               <Box
+//                 sx={{
+//                   bgcolor: "grey.100",
+//                   color: "grey.700",
+//                   p: 1,
+//                   borderRadius: 2,
+//                   display: "flex",
+//                   alignItems: "center",
+//                   justifyContent: "center",
+//                   boxShadow: 1,
+//                 }}
+//               >
+//                 {icon}
+//               </Box>
+//               <Typography variant="subtitle1" fontWeight={600}>
+//                 {label}
+//               </Typography>
+//             </Box>
 
-//       {showForm[status] && (
-//         <AddBook
-//           initialStatus={status}
-//           onBookAdded={() => {
-//             fetchBooks();
-//             toggleForm(status);
-//           }}
-//         />
-//       )}
-//     </div>
-//   );
+//             <Box flexGrow={1}>
+//               {booksArray.length > 0 ? (
+//                 booksArray.map((book) => (
+//                   <Box
+//                     key={book.id}
+//                     display="flex"
+//                     justifyContent="space-between"
+//                     alignItems="center"
+//                     sx={{ mb: 1 }}
+//                   >
+//                     <Typography
+//                       variant="body2"
+//                       sx={{
+//                         cursor: "pointer",
+//                         color: "text.primary",
+//                         transition: "color 0.2s ease",
+//                         "&:hover": { color: "primary.main" },
+//                       }}
+//                       onClick={() => navigate(`/books/${book.id}`)}
+//                     >
+//                       {book.title}
+//                     </Typography>
+//                     <IconButton
+//                       size="small"
+//                       sx={{
+//                         color: "grey.600",
+//                         "&:hover": {
+//                           color: "grey.800",
+//                         },
+//                       }}
+//                       onClick={() => handleDelete(book.id)}
+//                     >
+//                       <DeleteIcon fontSize="small" />
+//                     </IconButton>
+//                   </Box>
+//                 ))
+//               ) : (
+//                 <Typography variant="body2" color="text.secondary">
+//                   No books in this list.
+//                 </Typography>
+//               )}
+//             </Box>
+
+//             <Button
+//               startIcon={<AddIcon />}
+//               variant="outlined"
+//               fullWidth
+//               sx={{
+//                 mt: 2,
+//                 borderColor: "grey.300",
+//                 color: "text.primary",
+//                 "&:hover": {
+//                   borderColor: "grey.400",
+//                   backgroundColor: "grey.100",
+//                 },
+//               }}
+//               onClick={() => toggleForm(status)}
+//             >
+//               Add Book
+//             </Button>
+
+//             {showForm[status] && (
+//               <Box mt={2}>
+//                 <AddBook
+//                   initialStatus={status}
+//                   onBookAdded={() => {
+//                     fetchBooks();
+//                     toggleForm(status);
+//                   }}
+//                 />
+//               </Box>
+//             )}
+//           </CardContent>
+//         </Card>
+//       </Grid>
+//     );
+//   };
 
 //   return (
-//     <div className="custom-page">
-//       <div className="custom-header-row">
-//         <h1 className="custom-page-title">My Book Lists</h1>
-//         <button className="custom-back-btn" onClick={() => navigate(`/home/${userId}`)}>
-//           ← Go Back
-//         </button>
-//       </div>
+//     <Box
+//       sx={{
+//         backgroundImage: `url(${bgImage})`,
+//         backgroundSize: "cover",
+//         backgroundPosition: "center",
+//         minHeight: "100vh",
+//         py: 6,
+//       }}
+//     >
+//       <Box
+//         sx={{
+//           maxWidth: 1200,
+//           mx: "auto",
+//           px: 3,
+//           py: 4,
+//           backgroundColor: "rgba(255,255,255,0.9)",
+//           borderRadius: 4,
+//         }}
+//       >
+//         <Box
+//           sx={{
+//             display: "flex",
+//             justifyContent: "space-between",
+//             alignItems: "center",
+//             mb: 4,
+//           }}
+//         >
+//           <Box display="flex" alignItems="center" gap={3}>
+//             <Box
+//               sx={{
+//                 bgcolor: "#f0f4ff",
+//                 color: "#1976d2",
+//                 p: 2,
+//                 borderRadius: 2,
+//                 display: "flex",
+//                 alignItems: "center",
+//                 justifyContent: "center",
+//                 boxShadow: 1,
+//               }}
+//             >
+//               <MenuBookIcon fontSize="large" />
+//             </Box>
+//             <Box>
+//               <Typography
+//                 variant="h4"
+//                 fontWeight={700}
+//                 sx={{
+//                   color: "text.primary",
+//                   textShadow: "0 1px 2px rgba(0,0,0,0.1)",
+//                 }}
+//               >
+//                 My Library
+//               </Typography>
+//               <Typography variant="body2" color="text.secondary">
+//                 Organize, track, and plan your reading
+//               </Typography>
+//             </Box>
+//           </Box>
 
-//       {loading ? (
-//         <p className="custom-loading">⏳ Loading...</p>
-//       ) : (
-//         <div className="custom-list-container">
-//           {renderList("To Read", "wishlist", groupedBooks.wishlist)}
-//           {renderList("Reading", "reading", groupedBooks.reading)}
-//           {renderList("Read", "completed", groupedBooks.completed)}
-//         </div>
-//       )}
-//     </div>
+//           <Button
+//             startIcon={<ArrowBackIcon />}
+//             onClick={() => navigate(`/home/${userId}`)}
+//           >
+//             Go Back
+//           </Button>
+//         </Box>
+
+//         {loading ? (
+//           <Typography variant="body1">⏳ Loading...</Typography>
+//         ) : (
+//           <Grid container spacing={3}>
+//             {renderList("To Read", "wishlist", groupedBooks.wishlist)}
+//             {renderList("Reading", "reading", groupedBooks.reading)}
+//             {renderList("Read", "completed", groupedBooks.completed)}
+//           </Grid>
+//         )}
+//       </Box>
+//     </Box>
 //   );
 // };
 
 // export default BookList;
-
 
 
 import React, { useEffect, useState } from "react";
@@ -154,7 +299,7 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
-import bgImage from "../assets/manreading.png"; // 🖼️ Użyj innego pliku jeśli chcesz
+import bgImage from "../assets/manreading.png"; // użyj tła jak w CurrentlyReading
 
 const BookList = () => {
   const [books, setBooks] = useState([]);
@@ -214,119 +359,99 @@ const BookList = () => {
     }));
   };
 
-  const renderList = (label, status, booksArray) => {
-    const icon =
-      status === "wishlist" ? (
-        <BookmarkBorderIcon />
-      ) : status === "reading" ? (
-        <MenuBookIcon />
-      ) : (
-        <CheckCircleOutlineIcon />
-      );
-
-    return (
-      <Grid item xs={12} sm={6} md={4} key={status}>
-        <Card sx={{ borderRadius: 4, boxShadow: 2, height: "100%" }}>
-          <CardContent
-            sx={{ display: "flex", flexDirection: "column", height: "100%" }}
-          >
-            <Box display="flex" alignItems="center" gap={1.5} mb={2}>
-              <Box
-                sx={{
-                  bgcolor: "grey.100",
-                  color: "grey.700",
-                  p: 1,
-                  borderRadius: 2,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: 1,
-                }}
-              >
-                {icon}
-              </Box>
-              <Typography variant="subtitle1" fontWeight={600}>
-                {label}
-              </Typography>
-            </Box>
-
-            <Box flexGrow={1}>
-              {booksArray.length > 0 ? (
-                booksArray.map((book) => (
-                  <Box
-                    key={book.id}
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    sx={{ mb: 1 }}
-                  >
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        cursor: "pointer",
-                        color: "text.primary",
-                        transition: "color 0.2s ease",
-                        "&:hover": { color: "primary.main" },
-                      }}
-                      onClick={() => navigate(`/books/${book.id}`)}
-                    >
-                      {book.title}
-                    </Typography>
-                    <IconButton
-                      size="small"
-                      sx={{
-                        color: "grey.600",
-                        "&:hover": {
-                          color: "grey.800",
-                        },
-                      }}
-                      onClick={() => handleDelete(book.id)}
-                    >
-                      <DeleteIcon fontSize="small" />
-                    </IconButton>
-                  </Box>
-                ))
-              ) : (
-                <Typography variant="body2" color="text.secondary">
-                  No books in this list.
-                </Typography>
-              )}
-            </Box>
-
-            <Button
-              startIcon={<AddIcon />}
-              variant="outlined"
-              fullWidth
+  const renderList = (label, status, booksArray, icon) => (
+    <Grid item xs={12} md={4} key={status}>
+      <Card sx={{ p: 2, borderRadius: 3, boxShadow: 2 }}>
+        <CardContent>
+          <Box display="flex" alignItems="center" gap={1.5} mb={2}>
+            <Box
               sx={{
-                mt: 2,
-                borderColor: "grey.300",
-                color: "text.primary",
-                "&:hover": {
-                  borderColor: "grey.400",
-                  backgroundColor: "grey.100",
-                },
+                bgcolor: "grey.100",
+                color: "grey.700",
+                p: 1,
+                borderRadius: 2,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: 1,
               }}
-              onClick={() => toggleForm(status)}
             >
-              Add Book
-            </Button>
+              {icon}
+            </Box>
+            <Typography variant="subtitle1" fontWeight={600}>
+              {label}
+            </Typography>
+          </Box>
 
-            {showForm[status] && (
-              <Box mt={2}>
-                <AddBook
-                  initialStatus={status}
-                  onBookAdded={() => {
-                    fetchBooks();
-                    toggleForm(status);
+          {booksArray.length > 0 ? (
+            booksArray.map((book) => (
+              <Box
+                key={book.id}
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                sx={{ mb: 1 }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{
+                    cursor: "pointer",
+                    color: "text.primary",
+                    transition: "color 0.2s ease",
+                    "&:hover": { color: "primary.main" },
                   }}
-                />
+                  onClick={() => navigate(`/books/${book.id}`)}
+                >
+                  {book.title}
+                </Typography>
+                <IconButton
+                  size="small"
+                  onClick={() => handleDelete(book.id)}
+                  sx={{ color: "grey.600", "&:hover": { color: "grey.800" } }}
+                >
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
               </Box>
-            )}
-          </CardContent>
-        </Card>
-      </Grid>
-    );
-  };
+            ))
+          ) : (
+            <Typography variant="body2" color="text.secondary">
+              No books in this list.
+            </Typography>
+          )}
+
+          <Button
+            startIcon={<AddIcon />}
+            variant="outlined"
+            fullWidth
+            sx={{
+              mt: 2,
+              borderColor: "grey.300",
+              color: "text.primary",
+              "&:hover": {
+                borderColor: "grey.400",
+                backgroundColor: "grey.100",
+              },
+            }}
+            onClick={() => toggleForm(status)}
+          >
+            Add Book
+          </Button>
+
+          {showForm[status] && (
+            <Box mt={2}>
+              <AddBook
+                initialStatus={status}
+                onBookAdded={() => {
+                  fetchBooks();
+                  toggleForm(status);
+                }}
+              />
+            </Box>
+          )}
+        </CardContent>
+      </Card>
+    </Grid>
+  );
 
   return (
     <Box
@@ -336,73 +461,71 @@ const BookList = () => {
         backgroundPosition: "center",
         minHeight: "100vh",
         py: 6,
+        px: 2,
       }}
     >
       <Box
         sx={{
           maxWidth: 1200,
           mx: "auto",
-          px: 3,
-          py: 4,
-          backgroundColor: "rgba(255,255,255,0.9)",
+          backgroundColor: "rgba(255, 255, 255, 0.95)",
           borderRadius: 4,
+          p: 3,
         }}
       >
+        <Button
+          variant="outlined"
+          onClick={() => navigate(`/home/${userId}`)}
+          sx={{ mb: 3 }}
+        >
+          <ArrowBackIcon sx={{ mr: 1 }} /> Back to Home
+        </Button>
+
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            background: "linear-gradient(to right, #5e60ce, #5390d9)",
+            color: "white",
+            borderRadius: 3,
+            p: 3,
             mb: 4,
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+            boxShadow: 3,
           }}
         >
-          <Box display="flex" alignItems="center" gap={3}>
-            <Box
-              sx={{
-                bgcolor: "#f0f4ff",
-                color: "#1976d2",
-                p: 2,
-                borderRadius: 2,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: 1,
-              }}
-            >
-              <MenuBookIcon fontSize="large" />
-            </Box>
-            <Box>
-              <Typography
-                variant="h4"
-                fontWeight={700}
-                sx={{
-                  color: "text.primary",
-                  textShadow: "0 1px 2px rgba(0,0,0,0.1)",
-                }}
-              >
-                My Library
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Organize, track, and plan your reading
-              </Typography>
-            </Box>
-          </Box>
-
-          <Button
-            startIcon={<ArrowBackIcon />}
-            onClick={() => navigate(`/home/${userId}`)}
+          <Box
+            sx={{
+              bgcolor: "white",
+              borderRadius: "50%",
+              width: 56,
+              height: 56,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#5e60ce",
+              boxShadow: 2,
+            }}
           >
-            Go Back
-          </Button>
+            <MenuBookIcon fontSize="large" />
+          </Box>
+          <Box>
+            <Typography variant="h5" fontWeight="bold" sx={{ color: "white" }}>
+              My Library
+            </Typography>
+            <Typography variant="subtitle2" sx={{ opacity: 0.8 }}>
+              Organize, track, and plan your reading
+            </Typography>
+          </Box>
         </Box>
 
         {loading ? (
           <Typography variant="body1">⏳ Loading...</Typography>
         ) : (
           <Grid container spacing={3}>
-            {renderList("To Read", "wishlist", groupedBooks.wishlist)}
-            {renderList("Reading", "reading", groupedBooks.reading)}
-            {renderList("Read", "completed", groupedBooks.completed)}
+            {renderList("To Read", "wishlist", groupedBooks.wishlist, <BookmarkBorderIcon />)}
+            {renderList("Reading", "reading", groupedBooks.reading, <MenuBookIcon />)}
+            {renderList("Read", "completed", groupedBooks.completed, <CheckCircleOutlineIcon />)}
           </Grid>
         )}
       </Box>
