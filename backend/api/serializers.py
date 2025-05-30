@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Book, Review, ReadingGoal
 
-
 # class CategorySerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Category
@@ -45,7 +44,7 @@ class ReadingProgressSerializer(serializers.Serializer):
 #         model = Book
 #         fields = [
 #             'id', 'user', 'title', 'author', 'category',
-#             'status', 'rating', 'review', 'pages', 'cover_url', 'description'
+#             'status', 'rating', 'review', 'pages', 'cover_url', 'description', 'pages_read'
 #         ]
 #         read_only_fields = ['user']
 
@@ -56,7 +55,7 @@ class BookSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'user', 'title', 'author', 'category',
             'status', 'rating', 'review', 'pages',
-            'cover_url', 'description', 'created_at', 'updated_at'
+            'cover_url', 'description', 'created_at', 'pages_read', 'updated_at'
         ]
         read_only_fields = ['user', 'created_at', 'updated_at']
 

@@ -39,6 +39,7 @@ class Book(models.Model):
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    pages_read = models.PositiveIntegerField(default=0)  # ✅ <-- TO TUTAJ
 
 
 
