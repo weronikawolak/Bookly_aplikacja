@@ -8,6 +8,7 @@ import AddBook from "./pages/AddBook";
 import BookDetail from "./pages/BookDetail";
 import BookList from "./pages/BookList";
 import Statistics from "./pages/Statistics"; // <-- Ścieżka do pliku, dopasuj do siebie
+import CurrentlyReading from "./pages/CurrentlyReading";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/books" element={<BookList />} />
         <Route path="/books/:id" element={<BookDetail />} />
         <Route path="/statistics/:userId" element={<Statistics />} />
+        <Route path="/currently-reading/:userId" element={<CurrentlyReading />} />
 
       </Routes>
     </Router>
