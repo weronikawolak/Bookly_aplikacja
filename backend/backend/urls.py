@@ -34,6 +34,7 @@ urlpatterns = [
     path('api/logout/', LogoutUserView.as_view(), name="logout"),
     path('api/user/', UserDetailView.as_view(), name='user-detail'),
     path('api/user/books/', UserBooksView.as_view(), name='user-books'),
+
     # path('api/reading-goal/', set_reading_goal),
     # path('api/reading-goal/progress/', reading_goal_progress),
 ]
