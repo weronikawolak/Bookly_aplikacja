@@ -349,7 +349,16 @@ class ReadingGoalViewSet(viewsets.ModelViewSet):
         return ReadingGoal.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        year = serializer.validated_data.get('year')
+        goal = serializer.validated_data.get('goal')
+        user = self.request.user
+
+        ReadingGoal.objects.update_or_create(
+            user=user,
+            year=year,
+            defaults={'goal': goal}
+        )
+
 
     @action(detail=False, methods=['get'])
     def progress(self, request):
@@ -475,3 +484,4 @@ from .tasks import test_task
 def test_view(request):
     test_task.delay()
     return Response("Zadanie wysłane do kolejki")
+

@@ -19,7 +19,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
 class Book(models.Model):
     STATUS_CHOICES = [
         ('reading', 'Czytam'),
@@ -40,7 +39,6 @@ class Book(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     pages_read = models.PositiveIntegerField(default=0)  # ✅ <-- TO TUTAJ
-
 
 
     def __str__(self):
