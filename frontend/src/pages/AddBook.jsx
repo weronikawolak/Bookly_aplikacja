@@ -668,6 +668,300 @@
 
 
 
+
+
+// import React, { useState } from "react";
+// import axios from "axios";
+// import {
+//   Box,
+//   TextField,
+//   Button,
+//   Typography,
+//   CircularProgress,
+//   Paper,
+// } from "@mui/material";
+
+// // Wyszukiwanie książek z Google Books API
+// const fetchBooksFromGoogle = async (title, author) => {
+//   try {
+//     const query = `intitle:${title}+inauthor:${author}`;
+//     const res = await fetch(
+//       `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`
+//     );
+//     const data = await res.json();
+//     return (
+//       data.items?.map((item) => {
+//         const info = item.volumeInfo;
+//         return {
+//           id: item.id,
+//           title: info.title,
+//           author: info.authors?.[0] || "Unknown",
+//           pages: info.pageCount,
+//           description: info.description,
+//           coverUrl: info.imageLinks?.thumbnail?.replace("http:", "https:"),
+//           publishedDate: info.publishedDate,
+//           categories: info.categories || [],
+//         };
+//       }) || []
+//     );
+//   } catch (err) {
+//     console.error("❌ Błąd przy pobieraniu z Google Books:", err);
+//     return [];
+//   }
+// };
+
+// const AddBook = ({ onBookAdded, initialStatus }) => {
+//   const [title, setTitle] = useState("");
+//   const [author, setAuthor] = useState("");
+//   const [pages, setPages] = useState("");
+//   const [status, setStatus] = useState(initialStatus || "wishlist");
+//   const [review, setReview] = useState("");
+//   const [rating, setRating] = useState("");
+//   const [category, setCategory] = useState("");
+//   const [coverUrl, setCoverUrl] = useState("");
+//   const [description, setDescription] = useState("");
+//   const [searching, setSearching] = useState(false);
+//   const [searchResults, setSearchResults] = useState([]);
+
+//   const token = localStorage.getItem("token");
+
+//   const handleTitleSearch = async () => {
+//     if (!title && !author) {
+//       alert("Please enter a title or author.");
+//       return;
+//     }
+
+//     setSearching(true);
+//     setSearchResults([]);
+
+//     try {
+//       const results = await fetchBooksFromGoogle(title, author);
+//       setSearchResults(results);
+//       if (results.length === 0) alert("No results found.");
+//     } catch (err) {
+//       console.error("❌ Search error:", err);
+//     } finally {
+//       setSearching(false);
+//     }
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     const bookData = {
+//       title,
+//       author,
+//       pages: pages ? parseInt(pages) : null,
+//       status,
+//       category,
+//       cover_url: coverUrl,
+//       description,
+//     };
+
+//     if (status === "completed") {
+//       bookData.review = review;
+//       bookData.rating = rating ? parseInt(rating) : null;
+//     }
+
+//     try {
+//       await axios.post("http://127.0.0.1:8000/api/books/", bookData, {
+//         headers: { Authorization: `Token ${token}` },
+//       });
+
+//       // Reset formularza
+//       setTitle("");
+//       setAuthor("");
+//       setPages("");
+//       setStatus(initialStatus || "wishlist");
+//       setReview("");
+//       setRating("");
+//       setCategory("");
+//       setCoverUrl("");
+//       setDescription("");
+//       setSearchResults([]);
+
+//       if (onBookAdded) onBookAdded();
+//     } catch (error) {
+//       console.error("❌ Error adding book:", error.response?.data || error);
+//     }
+//   };
+
+//   return (
+//     <Paper sx={{ p: 3, mt: 3, borderRadius: 2 }} elevation={3}>
+//       <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 600 }}>
+//         Add a Book
+//       </Typography>
+
+//       <Box component="form" onSubmit={handleSubmit}>
+//         <TextField
+//             placeholder="Book Title"
+//             value={title}
+//             onChange={(e) => setTitle(e.target.value)}
+//             fullWidth
+//             margin="dense"
+//             size="small"
+//             variant="outlined"
+//             sx={{
+//               bgcolor: "white",
+//               borderRadius: 1,
+//               "& .MuiOutlinedInput-root": {
+//                 borderRadius: 2,
+//               },
+//             }}
+//         />
+
+//         <TextField
+//           placeholder="Author"
+//           value={author}
+//           onChange={(e) => setAuthor(e.target.value)}
+//           fullWidth
+//           margin="dense"
+//           size="small"
+//           variant="outlined"
+//           sx={{
+//             bgcolor: "white",
+//             borderRadius: 1,
+//             "& .MuiOutlinedInput-root": {
+//               borderRadius: 2,
+//             },
+//           }}
+    
+//         />
+
+//         <Box display="flex" gap={2} alignItems="center" my={2}>
+//           <Button
+//             variant="outlined"
+//             onClick={handleTitleSearch}
+//             disabled={searching}
+//             startIcon={!searching && <span role="img" aria-label="search">🔍</span>}
+//             size="small"
+//           >
+//             {searching ? <CircularProgress size={18} /> : "Search"}
+//           </Button>
+
+//           <Button type="submit" variant="contained" size="small">
+//             Add Book
+//           </Button>
+//         </Box>
+
+//         {searchResults.length > 0 && (
+//           <Box mb={2}>
+//             <Typography variant="body2" fontWeight={600} gutterBottom>
+//               Choose a book:
+//             </Typography>
+//             {searchResults.map((book) => (
+//               <Paper
+//                 key={book.id}
+//                 onClick={() => {
+//                   setTitle(book.title);
+//                   setAuthor(book.author);
+//                   setPages(book.pages || "");
+//                   setCoverUrl(book.coverUrl || "");
+//                   setDescription(book.description || "");
+//                   setCategory(book.categories?.[0] || "");
+//                   setSearchResults([]);
+//                 }}
+//                 sx={{
+//                   p: 1.5,
+//                   mb: 1,
+//                   display: "flex",
+//                   gap: 2,
+//                   alignItems: "center",
+//                   cursor: "pointer",
+//                   "&:hover": { backgroundColor: "grey.100" },
+//                 }}
+//               >
+//                 {book.coverUrl && (
+//                   <img
+//                     src={book.coverUrl}
+//                     alt="cover"
+//                     style={{ width: 45, height: "auto" }}
+//                   />
+//                 )}
+//                 <Box>
+//                   <Typography variant="body2" fontWeight={500}>
+//                     {book.title}
+//                   </Typography>
+//                   <Typography variant="caption" color="text.secondary">
+//                     {book.author}
+//                   </Typography>
+//                 </Box>
+//               </Paper>
+//             ))}
+//           </Box>
+//         )}
+
+//         {coverUrl && (
+//           <Box mb={2}>
+//             <img src={coverUrl} alt="cover" style={{ width: 90 }} />
+//           </Box>
+//         )}
+//         {pages && (
+//           <Typography variant="caption" display="block" mb={1}>
+//             <strong>Pages:</strong> {pages}
+//           </Typography>
+//         )}
+//         {description && (
+//           <Typography variant="caption" display="block" mb={1}>
+//             <strong>Description:</strong> {description}
+//           </Typography>
+//         )}
+//         {category && (
+//           <Typography variant="caption" display="block" mb={1}>
+//             <strong>Category:</strong> {category}
+//           </Typography>
+//         )}
+
+//         {status === "completed" && (
+//           <Box mt={2}>
+//             <TextField
+//                 type="number"
+//                 placeholder="Rating (1–5)"
+//                 value={rating}
+//                 onChange={(e) => setRating(e.target.value)}
+//                 inputProps={{ min: 1, max: 5 }}
+//                 fullWidth
+//                 margin="dense"
+//                 size="small"
+//                 variant="outlined"
+//                 sx={{
+//                   bgcolor: "white",
+//                   borderRadius: 1,
+//                   "& .MuiOutlinedInput-root": {
+//                     borderRadius: 2,
+//               },
+//             }}
+//             />
+//             <TextField
+//                 placeholder="Review (optional)"
+//                 value={review}
+//                 onChange={(e) => setReview(e.target.value)}
+//                 fullWidth
+//                 multiline
+//                 rows={3}
+//                 margin="dense"
+//                 size="small"
+//                 variant="outlined"
+//                 sx={{
+//                   bgcolor: "white",
+//                   borderRadius: 1,
+//                   "& .MuiOutlinedInput-root": {
+//                     borderRadius: 2,
+//                   },
+//                 }}
+//               />
+//           </Box>
+//         )}
+//       </Box>
+//     </Paper>
+//   );
+// };
+
+// export default AddBook;
+
+
+
+
 import React, { useState } from "react";
 import axios from "axios";
 import {
@@ -708,7 +1002,7 @@ const fetchBooksFromGoogle = async (title, author) => {
   }
 };
 
-const AddBook = ({ onBookAdded, initialStatus }) => {
+const AddBook = ({ onBookAdded, initialStatus, customListId }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [pages, setPages] = useState("");
@@ -750,15 +1044,22 @@ const AddBook = ({ onBookAdded, initialStatus }) => {
       title,
       author,
       pages: pages ? parseInt(pages) : null,
-      status,
       category,
       cover_url: coverUrl,
       description,
     };
 
-    if (status === "completed") {
+    if (customListId) {
+      bookData.custom_list = customListId;
+    } else {
+      bookData.status = status;
+    }
+
+    if ((status === "completed" || !status) && review) {
       bookData.review = review;
-      bookData.rating = rating ? parseInt(rating) : null;
+    }
+    if ((status === "completed" || !status) && rating) {
+      bookData.rating = parseInt(rating);
     }
 
     try {
@@ -770,7 +1071,6 @@ const AddBook = ({ onBookAdded, initialStatus }) => {
       setTitle("");
       setAuthor("");
       setPages("");
-      setStatus(initialStatus || "wishlist");
       setReview("");
       setRating("");
       setCategory("");
@@ -792,22 +1092,14 @@ const AddBook = ({ onBookAdded, initialStatus }) => {
 
       <Box component="form" onSubmit={handleSubmit}>
         <TextField
-            placeholder="Book Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            fullWidth
-            margin="dense"
-            size="small"
-            variant="outlined"
-            sx={{
-              bgcolor: "white",
-              borderRadius: 1,
-              "& .MuiOutlinedInput-root": {
-                borderRadius: 2,
-              },
-            }}
+          placeholder="Book Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          fullWidth
+          margin="dense"
+          size="small"
+          required
         />
-
         <TextField
           placeholder="Author"
           value={author}
@@ -815,15 +1107,7 @@ const AddBook = ({ onBookAdded, initialStatus }) => {
           fullWidth
           margin="dense"
           size="small"
-          variant="outlined"
-          sx={{
-            bgcolor: "white",
-            borderRadius: 1,
-            "& .MuiOutlinedInput-root": {
-              borderRadius: 2,
-            },
-          }}
-    
+          required
         />
 
         <Box display="flex" gap={2} alignItems="center" my={2}>
@@ -836,7 +1120,6 @@ const AddBook = ({ onBookAdded, initialStatus }) => {
           >
             {searching ? <CircularProgress size={18} /> : "Search"}
           </Button>
-
           <Button type="submit" variant="contained" size="small">
             Add Book
           </Button>
@@ -910,44 +1193,28 @@ const AddBook = ({ onBookAdded, initialStatus }) => {
           </Typography>
         )}
 
-        {status === "completed" && (
+        {(!customListId && status === "completed") && (
           <Box mt={2}>
             <TextField
-                type="number"
-                placeholder="Rating (1–5)"
-                value={rating}
-                onChange={(e) => setRating(e.target.value)}
-                inputProps={{ min: 1, max: 5 }}
-                fullWidth
-                margin="dense"
-                size="small"
-                variant="outlined"
-                sx={{
-                  bgcolor: "white",
-                  borderRadius: 1,
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 2,
-              },
-            }}
+              type="number"
+              placeholder="Rating (1–5)"
+              value={rating}
+              onChange={(e) => setRating(e.target.value)}
+              inputProps={{ min: 1, max: 5 }}
+              fullWidth
+              margin="dense"
+              size="small"
             />
             <TextField
-                placeholder="Review (optional)"
-                value={review}
-                onChange={(e) => setReview(e.target.value)}
-                fullWidth
-                multiline
-                rows={3}
-                margin="dense"
-                size="small"
-                variant="outlined"
-                sx={{
-                  bgcolor: "white",
-                  borderRadius: 1,
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 2,
-                  },
-                }}
-              />
+              placeholder="Review (optional)"
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+              fullWidth
+              multiline
+              rows={3}
+              margin="dense"
+              size="small"
+            />
           </Box>
         )}
       </Box>
