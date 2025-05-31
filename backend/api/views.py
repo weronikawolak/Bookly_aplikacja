@@ -45,6 +45,8 @@ from rest_framework.response import Response
 from datetime import datetime
 from api.permissions import IsOwnerOrAdmin 
 from rest_framework import viewsets, permissions, status
+from .serializers import CustomListSerializer
+from .models import CustomList
 
 def home(request):
     return JsonResponse({"message": "Welcome to the Bookly API!"})
@@ -377,6 +379,16 @@ class ReadingGoalViewSet(viewsets.ModelViewSet):
         else:
             return Response({ 'detail': 'No goal set.' }, status=status.HTTP_404_NOT_FOUND)
 
+# books/views.py
+class CustomListViewSet(viewsets.ModelViewSet):
+    serializer_class = CustomListSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return CustomList.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class RegisterUserView(APIView):
