@@ -18,6 +18,15 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    # books/models.py
+class CustomList(models.Model):
+    name = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="custom_lists")
+
+    def __str__(self):
+        return f"{self.name} ({self.user.username})"
+
 
 class Book(models.Model):
     STATUS_CHOICES = [
@@ -39,6 +48,7 @@ class Book(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     pages_read = models.PositiveIntegerField(default=0)  # ✅ <-- TO TUTAJ
+    custom_list = models.ForeignKey(CustomList, on_delete=models.CASCADE, null=True, blank=True, related_name="books")
 
 
     def __str__(self):
@@ -53,3 +63,5 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review by {self.user.username} for {self.book.title}"
+    
+
