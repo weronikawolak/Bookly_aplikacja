@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Book, Review, ReadingGoal
+from .models import CustomList
+
 
 # class CategorySerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -55,7 +57,7 @@ class BookSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'user', 'title', 'author', 'category',
             'status', 'rating', 'review', 'pages',
-            'cover_url', 'description', 'created_at', 'pages_read', 'updated_at'
+            'cover_url', 'description', 'created_at', 'pages_read', 'updated_at', 'custom_list'
         ]
         read_only_fields = ['user', 'created_at', 'updated_at']
 
@@ -68,6 +70,10 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = ['id', 'user', 'book', 'rating', 'comment', 'created_at']
 
+class CustomListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomList
+        fields = ['id', 'name']
 
 
 class UserSerializer(serializers.ModelSerializer):
