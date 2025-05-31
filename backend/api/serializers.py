@@ -28,7 +28,7 @@ from .models import Book, Review, ReadingGoal
 class ReadingGoalSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReadingGoal
-        fields = ['year', 'goal']
+        fields = ['id', 'year', 'goal']
 
 
 class ReadingProgressSerializer(serializers.Serializer):
