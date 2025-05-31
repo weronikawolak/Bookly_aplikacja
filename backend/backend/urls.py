@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from api.views import BookViewSet, ReviewViewSet, RegisterUserView, LoginUserView, LogoutUserView, UserDetailView
 from api.views import UserBooksView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
-from api.views import ReadingGoalViewSet
+from api.views import ReadingGoalViewSet, CustomListViewSet
 # from api.views import set_reading_goal, reading_goal_progress
 
 router = DefaultRouter()
@@ -12,6 +12,7 @@ router.register(r'books', BookViewSet, basename='books')
 router.register(r'reviews', ReviewViewSet, basename='reviews')
 # router.register(r'categories', basename='categories')
 router.register(r'reading-goal', ReadingGoalViewSet, basename='readinggoal')
+router.register(r'custom-lists', CustomListViewSet, basename='customlist')
 
 # urlpatterns = [
 #     path('admin/', admin.site.urls),
