@@ -90,20 +90,31 @@ const Statistics = () => {
       const genreMap = {};
       let pageSum = 0,
         ratingSum = 0,
+        ratingCount = 0,
         authorMap = {};
+        
 
       booksRes.data.forEach((book) => {
         const date = new Date(book.updated_at || book.created_at);
         const month = date.getMonth();
         monthly[month] += 1;
 
-        const cat = book.category || "Uncategorized";
+        const cat = book.category?.name || "Uncategorized";
         genreMap[cat] = (genreMap[cat] || 0) + 1;
 
         pageSum += book.pages || 0;
-        if (book.rating) ratingSum += book.rating;
-        if (book.author) authorMap[book.author] = (authorMap[book.author] || 0) + 1;
+        if (typeof book.rating === "number") {
+          ratingSum += book.rating;
+          ratingCount += 1;
+        }
+
+        if (book.author) {
+          authorMap[book.author] = (authorMap[book.author] || 0) + 1;
+        }
       });
+
+      setAveragePages((pageSum / booksRes.data.length || 0).toFixed(0));
+      setAverageRating((ratingCount > 0 ? (ratingSum / ratingCount) : 0).toFixed(1));
 
       setBooksPerMonth(
         monthly.map((val, idx) => ({
@@ -112,8 +123,8 @@ const Statistics = () => {
         }))
       );
       setGenreStats(Object.entries(genreMap).map(([name, value]) => ({ name, value })));
-      setAveragePages((pageSum / booksRes.data.length || 0).toFixed(0));
-      setAverageRating((ratingSum / booksRes.data.length || 0).toFixed(1));
+      //setAveragePages((pageSum / booksRes.data.length || 0).toFixed(0));
+      //setAverageRating((ratingSum / booksRes.data.length || 0).toFixed(1));
       const sortedAuthors = Object.entries(authorMap).sort((a, b) => b[1] - a[1]);
       setTopAuthor(sortedAuthors[0]?.[0] || "-");
     } catch (err) {
