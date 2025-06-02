@@ -17,8 +17,7 @@ class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return self.name
-    
+        return self.name.lower()    
     # books/models.py
 class CustomList(models.Model):
     name = models.CharField(max_length=100)
@@ -38,7 +37,10 @@ class Book(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
-    category = models.CharField(max_length=100, null=True, blank=True)  # zamiast ForeignKey
+    # category = models.CharField(max_length=100, null=True, blank=True)  # zamiast ForeignKey
+    # category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='books')
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='wishlist')
     rating = models.IntegerField(null=True, blank=True)
     review = models.TextField(blank=True)
@@ -48,11 +50,21 @@ class Book(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     pages_read = models.PositiveIntegerField(default=0)  # ✅ <-- TO TUTAJ
-    custom_list = models.ForeignKey(CustomList, on_delete=models.CASCADE, null=True, blank=True, related_name="books")
+    # custom_list = models.ForeignKey(CustomList, on_delete=models.CASCADE, null=True, blank=True, related_name="books")
+    custom_lists = models.ManyToManyField(CustomList, blank=True, related_name="books_m2m")
 
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['status']),
+            models.Index(fields=['created_at']),
+            models.Index(fields=['updated_at']),
+            models.Index(fields=['category']),
+            models.Index(fields=['user']),
+        ]
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -47,6 +47,8 @@ from api.permissions import IsOwnerOrAdmin
 from rest_framework import viewsets, permissions, status
 from .serializers import CustomListSerializer
 from .models import CustomList
+from .models import Category
+from .serializers import CategorySerializer
 
 def home(request):
     return JsonResponse({"message": "Welcome to the Bookly API!"})
@@ -140,6 +142,10 @@ class ReviewViewSet(viewsets.ModelViewSet):
 #     responses={201: OpenApiExample(name="Token response", value={"token": "xyz", "user_id": 1})}
 # )
 
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
 
 
