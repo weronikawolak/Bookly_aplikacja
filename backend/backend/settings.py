@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_spectacular',
     'drf_spectacular_sidecar',
+    'django_filters',
+
 ]
 
 MIDDLEWARE = [
@@ -163,6 +165,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',  # API wymaga logowania
     ),
     'EXCEPTION_HANDLER': 'api.exceptions.custom_exception_handler', 
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
 
 }
 CORS_ALLOWED_ORIGINS = [
@@ -181,5 +185,8 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:3000",
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'no-reply@bookly.local'
+# EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'  
 
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
