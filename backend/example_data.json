@@ -1,0 +1,188 @@
+[
+{
+  "model": "api.book",
+  "pk": 1,
+  "fields": {
+    "user": 22,
+    "title": "Harry Potter",
+    "author": "J.K. Rowling",
+    "category": "1",
+    "status": "completed",
+    "rating": 4,
+    "review": "Super ksi¹¿ka!",
+    "pages": null,
+    "cover_url": null,
+    "description": "",
+    "created_at": "2025-05-28T07:03:07.419Z",
+    "updated_at": "2025-05-28T08:00:04.511Z",
+    "pages_read": 0,
+    "custom_list": null
+  }
+},
+{
+  "model": "api.book",
+  "pk": 3,
+  "fields": {
+    "user": 22,
+    "title": "Hobbit",
+    "author": "J.R.R. Tolkien",
+    "category": "1",
+    "status": "wishlist",
+    "rating": 5,
+    "review": "Cudowna przygoda!",
+    "pages": null,
+    "cover_url": null,
+    "description": "",
+    "created_at": "2025-05-28T07:03:07.419Z",
+    "updated_at": "2025-05-28T08:00:04.511Z",
+    "pages_read": 0,
+    "custom_list": null
+  }
+},
+{
+  "model": "api.book",
+  "pk": 6,
+  "fields": {
+    "user": 22,
+    "title": "Hunger Games",
+    "author": "Suzanne Collins",
+    "category": "1",
+    "status": "completed",
+    "rating": 10,
+    "review": "Super",
+    "pages": null,
+    "cover_url": null,
+    "description": "",
+    "created_at": "2025-05-28T07:03:07.419Z",
+    "updated_at": "2025-05-28T08:00:04.511Z",
+    "pages_read": 0,
+    "custom_list": null
+  }
+},
+{
+  "model": "api.book",
+  "pk": 9,
+  "fields": {
+    "user": 25,
+    "title": "Hobbit",
+    "author": "Tolkien",
+    "category": "1",
+    "status": "reading",
+    "rating": null,
+    "review": "",
+    "pages": null,
+    "cover_url": null,
+    "description": "",
+    "created_at": "2025-05-28T07:03:07.419Z",
+    "updated_at": "2025-05-28T08:00:04.511Z",
+    "pages_read": 0,
+    "custom_list": null
+  }
+},
+{
+  "model": "api.book",
+  "pk": 10,
+  "fields": {
+    "user": 27,
+    "title": "anne",
+    "author": "ann",
+    "category": "1",
+    "status": "wishlist",
+    "rating": null,
+    "review": "",
+    "pages": null,
+    "cover_url": null,
+    "description": "",
+    "created_at": "2025-05-28T07:03:07.419Z",
+    "updated_at": "2025-05-28T08:00:04.511Z",
+    "pages_read": 0,
+    "custom_list": null
+  }
+},
+{
+  "model": "api.book",
+  "pk": 14,
+  "fields": {
+    "user": 27,
+    "title": "kasia",
+    "author": "nnn",
+    "category": "1",
+    "status": "wishlist",
+    "rating": null,
+    "review": "",
+    "pages": null,
+    "cover_url": null,
+    "description": "",
+    "created_at": "2025-05-28T07:03:07.419Z",
+    "updated_at": "2025-05-28T08:00:04.511Z",
+    "pages_read": 0,
+    "custom_list": null
+  }
+},
+{
+  "model": "api.book",
+  "pk": 18,
+  "fields": {
+    "user": 28,
+    "title": "mybook2",
+    "author": "yyy",
+    "category": "1",
+    "status": "wishlist",
+    "rating": null,
+    "review": "",
+    "pages": null,
+    "cover_url": null,
+    "description": "",
+    "created_at": "2025-05-28T07:03:07.419Z",
+    "updated_at": "2025-05-28T08:00:04.511Z",
+    "pages_read": 0,
+    "custom_list": null
+  }
+},
+{
+  "model": "api.book",
+  "pk": 20,
+  "fields": {
+    "user": 28,
+    "title": "mybook3",
+    "author": "uuu",
+    "category": "1",
+    "status": "completed",
+    "rating": 5,
+    "review": "great.",
+    "pages": null,
+    "cover_url": null,
+    "description": "",
+    "created_at": "2025-05-28T07:03:07.419Z",
+    "updated_at": "2025-05-28T08:00:04.511Z",
+    "pages_read": 0,
+    "custom_list": null
+  }
+},
+{
+  "model": "api.book",
+  "pk": 23,
+  "fields": {
+    "user": 32,
+    "title": "jezdziec miedziany",
+    "author": "Paulina Simons",
+    "category": "1",
+    "status": "reading",
+    "rating": null,
+    "review": "",
+    "pages": null,
+    "cover_url": null,
+    "description": "",
+    "created_at": "2025-05-28T07:03:07.419Z",
+    "updated_at": "2025-05-28T08:00:04.511Z",
+    "pages_read": 0,
+    "custom_list": null
+  }
+},
+{
+  "model": "api.book",
+  "pk": 24,
+  "fields": {
+    "user": 32,
+    "title": "Anna Karenina",
+    "author": 
