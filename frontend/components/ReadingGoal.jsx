@@ -1,4 +1,3 @@
-// components/ReadingGoal.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -12,7 +11,7 @@ const ReadingGoal = () => {
 
   const fetchProgress = async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:8000/api/reading-goal/progress/', {
+      const res = await axios.get('http://127.0.0.1:8000/api/v1/reading-goal/progress/', {
         headers: { Authorization: `Token ${token}` },
       });
       setGoal(res.data.goal);
@@ -26,7 +25,7 @@ const ReadingGoal = () => {
   const submitGoal = async () => {
     const year = new Date().getFullYear();
     try {
-      await axios.post('http://127.0.0.1:8000/api/reading-goal/', {
+      await axios.post('http://127.0.0.1:8000/api/v1/reading-goal/', {
         year,
         goal: inputGoal,
       }, {
@@ -81,4 +80,3 @@ const ReadingGoal = () => {
 export default ReadingGoal;
 
 
-// Dodaj <ReadingGoal /> do StatisticsPage lub odpowiedniego widoku
