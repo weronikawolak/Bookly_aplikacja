@@ -8,13 +8,13 @@ const RatingForm = ({ book, token, onUpdate }) => {
     e.preventDefault();
     try {
       await axios.patch(
-        `http://127.0.0.1:8000/api/books/${book.id}/`,
+        `http://127.0.0.1:8000/api/v1/books/${book.id}/`,
         { rating },
         { headers: { Authorization: `Token ${token}` } }
       );
-      onUpdate(); // Odśwież listę
+      onUpdate(); 
     } catch (err) {
-      console.error("❌ Błąd zapisu oceny:", err);
+      console.error("Błąd zapisu oceny:", err);
     }
   };
 

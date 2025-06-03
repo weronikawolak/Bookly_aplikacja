@@ -33,7 +33,7 @@ const Register = () => {
     setError("");
 
     try {
-      await axios.post("http://127.0.0.1:8000/api/register/", {
+      await axios.post("http://127.0.0.1:8000/api/v1/register/", {
         username,
         email,
         password,
@@ -50,7 +50,7 @@ const Register = () => {
   return (
     <Box
       sx={{
-          position: "fixed", // DODANE
+          position: "fixed", 
           top: 0,
           left: 0,
           width: "100vw",

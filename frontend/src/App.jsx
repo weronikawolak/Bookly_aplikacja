@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import AddBook from "./pages/AddBook";
 import BookDetail from "./pages/BookDetail";
 import BookList from "./pages/BookList";
-import Statistics from "./pages/Statistics"; // <-- Ścieżka do pliku, dopasuj do siebie
+import Statistics from "./pages/Statistics"; 
 import CurrentlyReading from "./pages/CurrentlyReading";
 
 function App() {
