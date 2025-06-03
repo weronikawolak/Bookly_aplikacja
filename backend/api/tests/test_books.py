@@ -3,9 +3,15 @@ from rest_framework import status
 from django.contrib.auth.models import User, Group
 from api.models import Book, Category
 from django.urls import reverse
+from rest_framework.authtoken.models import Token
 
 class BookTests(APITestCase):
     def setUp(self):
+        Book.objects.all().delete()
+        Category.objects.all().delete()
+        Group.objects.all().delete()
+        User.objects.all().delete()
+        Token.objects.all().delete()  
         self.user = User.objects.create_user(username="testuser", password="testpass")
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
@@ -96,28 +102,6 @@ class BookTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_admin_can_see_all_books(self):
-        # Stwórz drugiego użytkownika i jego książkę
-        other_user = User.objects.create_user(username="otheruser", password="testpass")
-        other_book = Book.objects.create(
-            title="Other Book",
-            author="Other Author",
-            status="wishlist",
-            category=self.category,
-            user=other_user
-        )
-
-        # Zrób admina z testowego usera
-        admin_group, created = Group.objects.get_or_create(name='ROLE_ADMIN')
-        self.user.groups.add(admin_group)
-
-        # Admin powinien widzieć WSZYSTKIE książki
-        url = reverse('books-list')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)  # 2 książki: własna + cudza
-
-    def test_user_sees_only_their_books(self):
-        # Stwórz drugiego użytkownika i jego książkę
         other_user = User.objects.create_user(username="otheruser", password="testpass")
         Book.objects.create(
             title="Other Book",
@@ -127,14 +111,30 @@ class BookTests(APITestCase):
             user=other_user
         )
 
-        # Zwykły user powinien widzieć tylko SWOJĄ książkę
+        admin_group, _ = Group.objects.get_or_create(name='ROLE_ADMIN')
+        self.user.groups.add(admin_group)
+
         url = reverse('books-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data["results"]), 2)  # admin widzi wszystko
+
+    def test_user_sees_only_their_books(self):
+        other_user = User.objects.create_user(username="otheruser", password="testpass")
+        Book.objects.create(
+            title="Other Book",
+            author="Other Author",
+            status="wishlist",
+            category=self.category,
+            user=other_user
+        )
+
+        url = reverse('books-list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data["results"]), 1)  # user widzi tylko swoje
 
     def test_user_cannot_delete_other_users_book(self):
-        # Stwórz drugiego użytkownika i jego książkę
         other_user = User.objects.create_user(username="otheruser", password="testpass")
         other_book = Book.objects.create(
             title="Other Book",
@@ -144,7 +144,6 @@ class BookTests(APITestCase):
             user=other_user
         )
 
-        # Zwykły user próbuje usunąć cudzą książkę ➔ powinien dostać 403
         url = reverse('books-detail', kwargs={'pk': other_book.id})
         response = self.client.delete(url)
         self.assertIn(response.status_code, [status.HTTP_403_FORBIDDEN, status.HTTP_404_NOT_FOUND])
