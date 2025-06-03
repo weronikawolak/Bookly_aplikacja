@@ -44,11 +44,7 @@ class BookViewSet(viewsets.ModelViewSet):
     ordering_fields = ['title', 'created_at', 'updated_at', 'pages']
     search_fields = ['title', 'author', 'description']
 
-    # def get_queryset(self):
-    #     user = self.request.user
-    #     if user.groups.filter(name='ROLE_ADMIN').exists():
-    #         return Book.objects.all()
-    #     return Book.objects.filter(user=user)
+
 
     def get_queryset(self):
         user = self.request.user
@@ -57,8 +53,6 @@ class BookViewSet(viewsets.ModelViewSet):
         return Book.objects.filter(user=user).order_by('id')
 
     def perform_create(self, serializer):
-        # book = BookService.create_book(self.request.user, serializer.validated_data)
-        # serializer.instance = book
         serializer.save(user=self.request.user)
 
 

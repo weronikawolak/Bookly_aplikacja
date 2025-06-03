@@ -146,7 +146,6 @@ const Home = () => {
   );
 };
 
-// 🧩 Card Component
 const Card = ({ title, description, icon, onClick }) => (
   <div
     onClick={onClick}
@@ -169,7 +168,6 @@ const Card = ({ title, description, icon, onClick }) => (
   </div>
 );
 
-// 🎨 Styles
 const iconStyle = {
   fontSize: "42px",
   color: "#5e60ce",

@@ -20,7 +20,6 @@ const Register = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Zapobiega przewijaniu
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {

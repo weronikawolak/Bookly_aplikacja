@@ -18,7 +18,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name.lower()    
-    # books/models.py
+
 class CustomList(models.Model):
     name = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="custom_lists")
@@ -37,8 +37,6 @@ class Book(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
-    # category = models.CharField(max_length=100, null=True, blank=True)  # zamiast ForeignKey
-    # category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='books')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='wishlist')
@@ -50,7 +48,6 @@ class Book(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     pages_read = models.PositiveIntegerField(default=0)  # ✅ <-- TO TUTAJ
-    # custom_list = models.ForeignKey(CustomList, on_delete=models.CASCADE, null=True, blank=True, related_name="books")
     custom_lists = models.ManyToManyField(CustomList, blank=True, related_name="books_m2m")
 
 

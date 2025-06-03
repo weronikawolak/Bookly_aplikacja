@@ -28,7 +28,6 @@ const BookDetail = () => {
   const [rating, setRating] = useState("");
   const [review, setReview] = useState("");
 
-  // Fetch book
   const { data: book, isLoading } = useQuery({
     queryKey: ["book", id],
     queryFn: async () => {
@@ -50,7 +49,6 @@ const BookDetail = () => {
     },
   });
 
-  // Mutation for updating book
   const updateBookMutation = useMutation({
     mutationFn: async (updatedData) => {
       return axios.patch(`http://127.0.0.1:8000/api/v1/books/${id}/`, updatedData, {
